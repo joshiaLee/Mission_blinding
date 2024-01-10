@@ -14,9 +14,7 @@ public class Hashtag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String tag;
 
-//    @OneToMany(mappedBy = hashtags)
-//    private List<Board> boards = new ArrayList<>();
+
 }
