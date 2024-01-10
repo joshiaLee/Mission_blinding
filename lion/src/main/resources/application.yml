@@ -3,6 +3,7 @@ spring:
     url: jdbc:sqlite:db.sqlite
     driver-class-name: org.sqlite.JDBC
 
+
   jpa:
     hibernate:
       ddl-auto: update

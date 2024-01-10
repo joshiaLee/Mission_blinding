@@ -208,4 +208,15 @@ public class BoardController {
             return "message";
         }
     }
+
+    @GetMapping("/hashtag") // localhost:8080/hashtag?tag=dream
+    public String boardHashtag(@RequestParam(name = "tag") String tag,
+                               Model model){
+        List<Board> list = boardService.boardSearchByTag(tag);
+        Collections.reverse(list);
+
+        model.addAttribute("list", list);
+        model.addAttribute("tag", tag);
+        return "boardlisthash";
+    }
 }

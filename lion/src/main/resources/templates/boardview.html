@@ -30,8 +30,8 @@
       text-decoration: none;
       border: 2px solid #007bff;
       border-radius: 4px;
-      padding: 10px 20px;
-      font-size: 16px;
+      padding: 5px 10px;
+      font-size: 15px;
       display: inline-block;
       margin-right: 10px;
     }
@@ -91,6 +91,9 @@
   </div>
   <p th:text="${board.content}" style="border: 2px solid #ccc; padding: 10px;">내용이 들어갈 부분입니다.</p>
   <br>
+  <th:block th:each="hashtag : ${board.hashtags}">
+    <a th:href="@{/hashtag(tag=${hashtag.tag})}" th:text="'#' + ${hashtag.tag}" ></a>
+  </th:block>
   <hr>
   <h4>댓글</h4>
   <th:block th:each="comment : ${board.comments}">

@@ -17,4 +17,10 @@ public class Hashtag {
     private String tag;
 
 
+    public Hashtag(String tag) {
+        this.tag = tag;
+    }
+
+    public Hashtag() {
+    }
 }

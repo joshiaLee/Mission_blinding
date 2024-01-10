@@ -20,5 +20,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByContentContaining(String searchKeyword);
 
-    List<Board> findByHashtagsEquals(String hashtags);
+    List<Board> findByHashtagsTag(String tag);
 }
