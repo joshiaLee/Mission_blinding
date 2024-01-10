@@ -60,4 +60,8 @@ public class BoardService {
     public List<Board> boardSearchByContentContaining(String searchKeyword) {
         return boardRepository.findByContentContaining(searchKeyword);
     }
+
+    public List<Board> boardSearchByHashtag(String hashtag){
+        return boardRepository.findByHashtagsEquals(hashtag);
+    }
 }
