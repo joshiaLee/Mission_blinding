@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 상세 페이지</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
+    h3 {
+      color: #555;
+      font-size: 20px;
+      margin-top: 25px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    p {
+      color: #666;
+      font-size: 18px;
+      line-height: 1.5;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border: 2px solid #ccc;
+      padding: 10px;
+    }
+    a, #commentBtn{
+      color: #007bff;
+      text-decoration: none;
+      border: 2px solid #007bff;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 16px;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    a:hover, #commentBtn:hover{
+      background-color: #007bff;
+      color: #fff;
+    }
+    #content-section {
+      margin: 30px 0;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+    }
+    #content-section label {
+      display: block;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    #content-section textarea {
+      width: 90%;
+      height: 100px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 16px;
+      line-height: 1.5;
+      resize: vertical;
+
+    }
+
+    span {
+      font-weight: bold;
+      font-size: 18px;
+      color: #007bff;
+      width: 120px;
+    }
+
+    #writer {
+      font-weight: bold;
+      font-size: 18px;
+      color: #aa00ff;
+      width: 120px;
+    }
+    img {
+      display: block; /* 이미지를 블록 요소로 설정 */
+      margin: auto; /* 수평 가운데 정렬 */
+    }
+
+  </style>
+</head>
+<body>
+<div style="max-width: 800px; margin: 0 auto;">
+  <div>
+    <br>
+    <h3 th:text="${board.title}" style="border-top: 2px solid #555; padding-top: 10px;">제목입니다.</h3>
+  </div>
+  <p th:text="${board.content}" style="border: 2px solid #ccc; padding: 10px;">내용이 들어갈 부분입니다.</p>
+  <br>
+  <hr>
+  <h4>댓글</h4>
+  <th:block th:each="comment : ${board.comments}">
+    <form th:action="@{|/comment/delete/${comment.id}|}">
+      <br>
+      <p th:text="${comment.content}" style="border: 2px solid #ccc; padding: 10px;"></p>
+      <div>
+        <label for="password" style="display: inline-block;">비밀번호:</label>
+        <input type="password" name="password" style="display: inline-block; margin-left: 5px;" />
+        <input type="hidden" name="board_id" th:value="${board.id}" />
+        <input type="hidden" name="category" th:value="${category}" />
+        <input type="submit" value="댓글 삭제">
+      </div>
+
+    </form>
+  </th:block>
+
+  <form th:action method="post">
+    <div id="content-section">
+      <label for="content">댓글 추가</label>
+      <textarea id="content" name="content"></textarea>
+      <div>
+        <label for="password" style="display: inline-block;">비밀번호:</label>
+        <input type="password" id="password" name="password" style="display: inline-block; margin-left: 5px;" />
+      </div>
+      <br>
+      <input id="commentBtn" type="submit" value="댓글 쓰기" />
+    </div>
+  </form>
+  <hr>
+  <a th:href="@{/board/list/{categoryId}(categoryId = ${category})}">목록</a>
+
+  <form th:action="@{/board/modify/{id}(id = ${board.id})}" method="post">
+    <div>
+      <label for="password" style="display: inline-block;">비밀번호:</label>
+      <input type="password" name="password" style="display: inline-block; margin-left: 5px;" />
+      <input type="hidden" name="category" th:value="${category}" />
+      <input type="submit" value="게시글 수정">
+    </div>
+  </form>
+
+  <form th:action="@{/board/delete/{id}(id=${board.id})}" method="post">
+    <div>
+      <label for="password" style="display: inline-block;">비밀번호:</label>
+      <input type="password" name="password" style="display: inline-block; margin-left: 5px;" />
+      <input type="hidden" name="category" th:value="${category}" />
+      <input type="submit" value="게시글 삭제">
+    </div>
+  </form>
+
+</div>
+</body>
+</html>
