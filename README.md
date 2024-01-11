@@ -1,4 +1,4 @@
-![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/9dcacd14-789c-447b-b804-8fc0cff92817)## Mission Blinding - 익명 게시판 기능 개발
+## Mission Blinding - 익명 게시판 기능 개발
 
 ### 필수 기능 소개
 
