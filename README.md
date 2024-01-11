@@ -38,7 +38,7 @@
 public String board() // 시작 URL로 전체게시판으로 이동합니다
 
 @GetMapping("/board/list/{category}")
-public String boardList() // 해당 카테고리 게시판으로 이동합니다, 검색창을 사용할때도 사용됩니다.
+public String boardList() // 해당 카테고리 게시판으로 이동합니다, 검색창을 사용할때도 사용됩니다
 
 @GetMapping("/board/write") 
 public String boardWriteForm() // 게시글 작성 페이지로 이동합니다
