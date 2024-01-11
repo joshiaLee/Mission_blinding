@@ -113,8 +113,10 @@ public class BoardController {
                               Model model) throws Exception{
 
         Board boardTemp = boardService.boardView(id);
+
         boardTemp.setTitle(board.getTitle());
         boardTemp.setContent(board.getContent());
+        boardTemp.setCategory(board.getCategory());
 
         boardService.write(boardTemp);
 

@@ -24,7 +24,7 @@ public class Board {
     @JoinColumn(name = "board_id")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "board_id")
     private List<Hashtag> hashtags = new ArrayList<>();
 

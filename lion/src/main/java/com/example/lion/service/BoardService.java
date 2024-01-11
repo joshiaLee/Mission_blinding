@@ -27,6 +27,7 @@ public class BoardService {
     public void write(Board board) throws Exception{
 
         List<String> hashWords = extractHashWords(board.getContent());
+        board.getHashtags().clear();
 
         for(String tag : hashWords){
             Hashtag hashtag = new Hashtag(tag);
