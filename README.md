@@ -180,7 +180,9 @@ searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 �
    - TDD(Test Driven Development)방식으로 프로젝트를 진행할 필요성을 느꼈다.
      
 ### 실행 및 테스트 방법
-application.yml에서 ddl-auto: `create`로 설정합니다
+1. application.yml에서 ddl-auto: `create`로 설정합니다
+2. LionApplication을 실행합니다.
+3. 주소창에 시작 URL인 http://localhost:8080/board/list 입력합니다.
 
  
 
