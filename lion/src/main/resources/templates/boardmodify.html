@@ -34,10 +34,10 @@
     <div>
       <label for="category">카테고리</label>
       <select id="category" name="category">
-        <option value="2">자유 게시판</option>
-        <option value="3">개발 게시판</option>
-        <option value="4">일상 게시판</option>
-        <option value="5">사건사고 게시판</option>
+        <option value="2" th:selected="${board.category == 2}">자유 게시판</option>
+        <option value="3" th:selected="${board.category == 3}">개발 게시판</option>
+        <option value="4" th:selected="${board.category == 4}">일상 게시판</option>
+        <option value="5" th:selected="${board.category == 5}">사건사고 게시판</option>
 
       </select>
     </div>
