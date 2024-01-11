@@ -196,6 +196,7 @@ searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 �
 9. 게시글 밑에 해쉬태그를 클릭하여 해당 해쉬태그를 포함한 게시물들을 조회할수 있습니다.
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/52c3844d-d08e-49ae-abac-7d98fae3ec78)
 10. 해쉬 태그를 클릭하면 검색창 UI는 사라지고 그 자리에 어떤 해쉬태그로 검색했는지 출력하고 해당 게시물들을 조회합니다.
+
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/1bb15fcd-619f-45b9-8bbc-42670ed9dfca)
 11. 수정및 삭제는 비밀번호가 같아야 진행이 되고 실행방법은 위와 동일합니다.
 
