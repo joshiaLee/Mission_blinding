@@ -187,8 +187,11 @@ searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 �
  ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/60c03ce3-78c3-40da-8666-254d1c7e7b6a)
 
 4. 게시판 UI를 클릭하면 해당 게시판으로 이동하고 글쓰기 UI를 클릭하면 글을 작성하는 페이지로 이동합니다.
-5. 가운데 있는 검색창 UI를 통해 제목이나 내용을 선택하고 검색하고 싶은 게시판을 조회할수 있습니다.
-6. 게시글을 클릭하면 게시글 단일 조회 페이지로 이동합니다.
+
+   ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/2db99d69-fc0b-44eb-978d-4150eca2069b)
+
+6. 가운데 있는 검색창 UI를 통해 제목이나 내용을 선택하고 검색하고 싶은 게시판을 조회할수 있습니다.
+7. 게시글을 클릭하면 게시글 단일 조회 페이지로 이동합니다.
    
    ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/713dc8a8-5e21-4a1b-a807-75a26ad7b41b)
 
