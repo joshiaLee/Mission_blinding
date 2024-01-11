@@ -76,6 +76,38 @@ public String boardHashtag() // 해당 해시태그를 포함하는 게시글들
 게시글을 작성하거나 수정할때 게시글 내용에서 #이 포함된 단어를 추출하기 위해 정규표현식을 이용한 메서드를 작성하였고
 BoardService에서 저장하기 전에 해쉬태그들을 추출합니다.
 이때 업데이트 될때에는 전에 저장된 해쉬태그들을 다 비우고 새로 추출하는 방식을 사용했습니다.
+해당 자바 코드는 아래와 같습니다.
+```java
+    public void write(Board board) throws Exception{
+
+        List<String> hashWords = extractHashWords(board.getContent());
+        board.getHashtags().clear();
+
+        for(String tag : hashWords){
+            Hashtag hashtag = new Hashtag(tag);
+
+            hashtagRepository.save(hashtag);
+            board.getHashtags().add(hashtag);
+        }
+        boardRepository.save(board);
+    }
+
+    private static List<String> extractHashWords(String input) {
+        List<String> hashWords = new ArrayList<>();
+        Pattern pattern = Pattern.compile("#([\\p{L}\\p{N}_]+)"); // #으로 시작하고, 그 뒤에 단어 문자(알파벳, 숫자, 언더스코어)가 하나 이상인 패턴
+
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            String hashWord = matcher.group(1);
+            hashWords.add(hashWord);
+        }
+
+        return hashWords;
+    }
+
+```
+
 
 ### 검색 기능
 searchKeyWord가 없으면 카테고리에 따라 게시물을 조회하고
