@@ -189,6 +189,8 @@ searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 �
 5. 게시판 카테고리, 제목, 내용, 비밀번호를 설정할수 있고 나중에 수정및 삭제를 할경우 비밀번호가 일치해야 합니다.
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/57f15744-5a46-41e9-ad4e-f9022d77144e)
 6. 가운데 있는 검색창 UI를 통해 제목이나 내용을 선택하고 검색하고 싶은 게시판을 조회할수 있습니다.
+   ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/7b5acef2-7333-480c-825d-ada5cdefa76e)
+
 7. 게시글을 클릭하면 게시글 단일 조회 페이지로 이동합니다.
    ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/713dc8a8-5e21-4a1b-a807-75a26ad7b41b)
 8. 해당 게시글에 댓글을 달수 있습니다.(비밀번호를 제출하고 나중에 삭제할때는 비밀번호가 일치해야 합니다.)
