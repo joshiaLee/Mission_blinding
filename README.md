@@ -184,21 +184,21 @@ searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 �
 2. LionApplication을 실행합니다.
 3. 주소창에 시작 URL인 http://localhost:8080/board/list 입력합니다.
  ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/60c03ce3-78c3-40da-8666-254d1c7e7b6a)
-
 4. 게시판 UI를 클릭하면 해당 게시판으로 이동하고 글쓰기 UI를 클릭하면 글을 작성하는 페이지로 이동합니다.
 5. 게시판 카테고리, 제목, 내용, 비밀번호를 설정할수 있고 나중에 수정및 삭제를 할경우 비밀번호가 일치해야 합니다.
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/57f15744-5a46-41e9-ad4e-f9022d77144e)
 6. 가운데 있는 검색창 UI를 통해 제목이나 내용을 선택하고 검색하고 싶은 게시판을 조회할수 있습니다.
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/7b5acef2-7333-480c-825d-ada5cdefa76e)
-
 7. 게시글을 클릭하면 게시글 단일 조회 페이지로 이동합니다.
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/713dc8a8-5e21-4a1b-a807-75a26ad7b41b)
 8. 해당 게시글에 댓글을 달수 있습니다.(비밀번호를 제출하고 나중에 삭제할때는 비밀번호가 일치해야 합니다.)
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/2db99d69-fc0b-44eb-978d-4150eca2069b)
 9. 게시글 밑에 해쉬태그를 클릭하여 해당 해쉬태그를 포함한 게시물들을 조회할수 있습니다.
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/52c3844d-d08e-49ae-abac-7d98fae3ec78)
+10. 해쉬 태그를 클릭하면 검색창 UI는 사라지고 그 자리에 어떤 해쉬태그로 검색했는지 출력하고 해당 게시물들을 조회합니다.
+![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/1bb15fcd-619f-45b9-8bbc-42670ed9dfca)
+11. 수정및 삭제는 비밀번호가 같아야 진행이 되고 실행방법은 위와 동일합니다.
 
-10.  
 
    
 
