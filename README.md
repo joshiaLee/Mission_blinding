@@ -1,4 +1,4 @@
-## Mission Blinding - 익명 게시판 기능 개발
+![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/9dcacd14-789c-447b-b804-8fc0cff92817)## Mission Blinding - 익명 게시판 기능 개발
 
 ### 필수 기능 소개
 
@@ -189,12 +189,16 @@ searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 �
 5. 게시판 카테고리, 제목, 내용, 비밀번호를 설정할수 있고 나중에 수정및 삭제를 할경우 비밀번호가 일치해야 합니다.
 ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/57f15744-5a46-41e9-ad4e-f9022d77144e)
 6. 가운데 있는 검색창 UI를 통해 제목이나 내용을 선택하고 검색하고 싶은 게시판을 조회할수 있습니다.
-   ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/7b5acef2-7333-480c-825d-ada5cdefa76e)
+![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/7b5acef2-7333-480c-825d-ada5cdefa76e)
 
 7. 게시글을 클릭하면 게시글 단일 조회 페이지로 이동합니다.
-   ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/713dc8a8-5e21-4a1b-a807-75a26ad7b41b)
+![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/713dc8a8-5e21-4a1b-a807-75a26ad7b41b)
 8. 해당 게시글에 댓글을 달수 있습니다.(비밀번호를 제출하고 나중에 삭제할때는 비밀번호가 일치해야 합니다.)
-   ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/2db99d69-fc0b-44eb-978d-4150eca2069b)
+![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/2db99d69-fc0b-44eb-978d-4150eca2069b)
+9. 게시글 밑에 해쉬태그를 클릭하여 해당 해쉬태그를 포함한 게시물들을 조회할수 있습니다.
+![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/52c3844d-d08e-49ae-abac-7d98fae3ec78)
+
+10.  
 
    
 
