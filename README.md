@@ -6,6 +6,7 @@
 Spring Data JPA를 사용하여 SQL을 조작하여 게시글을 조회할 때 `category`를 조건으로 활용하며, 전체 게시글을 조회할 때는 `category`를 사용하지 않고 전체를 조회합니다.
 또한 수정및 삭제기능을 구현하기위해 `password`라는 속성을 사용하여 수정및 삭제를 하기전에 이 비밀번호를 입력으로 받고 비밀번호가 일치하면 동작을 수행하고 일치하지 않으면 수행되지 않습니다.
 하나의 게시글(Board)에는 여러개의 댓글(Comment)이 달릴수 있기 때문에 Comment라는 Entity를 만들고 일대다 단방향 매핑해주었습니다.
+Comment의 속성은 내용(`content`)와 비밀번호(`password`)로 구성되고 Foreign Key로 Board_id를 갖습니다.
 
 ## 주요 기능
 
