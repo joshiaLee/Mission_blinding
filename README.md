@@ -184,7 +184,8 @@ searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 �
 2. LionApplication을 실행합니다.
 3. 주소창에 시작 URL인 http://localhost:8080/board/list 입력합니다.
 
- 
+ ![image](https://github.com/joshiaLee/Mission_blinding/assets/93809073/60c03ce3-78c3-40da-8666-254d1c7e7b6a)
+
 
 
 
