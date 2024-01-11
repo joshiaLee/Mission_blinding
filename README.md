@@ -22,14 +22,14 @@
    - 비밀번호가 일치한다면 게시글을 삭제할 수 있습니다.
 
 ### 댓글 기능
+기능을 구현하기위해 Comment라는 Entity를 객체를 만들고 속성으로는 content와 password를 갖고 Foreign Key로는 Board_id를 갖습니다.
+따라서 join을 통해 해당 게시물에 달린 댓글을 모두 가져올수 있고 이것을 thymeleaf의 반복문을 사용해서 모든 댓글을 출력할수 있습니다.
 
 - 댓글의 작성은 게시글 단일 조회 페이지에서 이루어지며
 - 댓글을 작성할 때는 작성자가 자신임을 증명할 수 있는 비밀번호를 추가해서 작성합니다.
 - 댓글의 목록은 게시글 단일 조회 페이지에서 확인이 가능합니다.
 - 댓글의 삭제는 게시글 단일 조회 페이지에서 가능합니다.
-  - 댓글 삭제를 하기 위한 UI가 존재해야 합니다.
-  - 댓글 삭제를 위해 비밀번호를 제출할 수 있어야 합니다.
-    - 이 비밀번호가 댓글 작성 당시의 비밀번호와 일치해야 실제로 삭제가 이뤄집니다.
+- 이 비밀번호가 댓글 작성 당시의 비밀번호와 일치해야 실제로 삭제가 이뤄집니다.
 
 ### 컨트롤러 설명
 
@@ -66,4 +66,64 @@ public String boardDelete() // 비밀번호가 일치하면 해당 게시글을 
 
 @GetMapping("/hashtag") 
 public String boardHashtag() // 해당 해시태그를 포함하는 게시글들을 조회합니다
+```
+
+### 도전 과제
+해쉬태그 추출및 검색 기능, 해당게시판에서 제목이나 내용으로 게시판 검색기능 추가
+
+### 해쉬 태그 기능
+한 게시물(Board)에 해쉬태그가 여러개 있을수 있으므로 Hashtag라는 Entity를 새로 만들고 일대다 단방향 매핑을 해주었습니다. 
+게시글을 작성하거나 수정할때 게시글 내용에서 #이 포함된 단어를 추출하기 위해 정규표현식을 이용한 메서드를 작성하였고
+BoardService에서 저장하기 전에 해쉬태그들을 추출합니다.
+이때 업데이트 될때에는 전에 저장된 해쉬태그들을 다 비우고 새로 추출하는 방식을 사용했습니다.
+
+### 검색 기능
+searchKeyWord가 없으면 카테고리에 따라 게시물을 조회하고
+searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 스프링 데이터 JPA를 사용해서 해당 쿼리가 나가도록합니다
+이때 현재 카테고리정보도 포함되게해서 해당게시판에서만 검색을 하도록 구현했습니다.
+이에 대한 자바코드는 아래와 같습니다.
+
+```java
+@GetMapping("/board/list/{category}")
+    public String boardList(Model model,
+                            @PathVariable(name = "category") Integer category,
+                            @RequestParam(name = "searchKeyword", required = false) String searchKeyword,
+                            @RequestParam(name = "toc", required = false) Integer toc){
+
+        List<Board> list = null;
+
+        if(searchKeyword == null){
+            if(category == 1) list = boardService.boardList();
+            else list = boardService.boardListByCategory(category);
+        } else {
+            // 전체 게시글에서
+            if(category == 1){
+                // 제목 검색
+                if(toc == 1) list = boardService.boardSearchByTitleContaining(searchKeyword);
+                // 내용 검색
+                else list = boardService.boardSearchByContentContaining(searchKeyword);
+
+
+            }
+            // 특정 카테고리 게시글에서
+            else {
+                // 제목과 카테고리 검색
+                if(toc == 1) list = boardService.boardSearchByTitleAndCategory(searchKeyword, category);
+                // 내용과 카테고리 검색
+                else list = boardService.boardSearchByContentAndCategory(searchKeyword, category);
+            }
+        }
+
+        Collections.reverse(list);
+
+        model.addAttribute("category", category);
+        model.addAttribute("list", list); // 리턴값이 "list"로 넘어간다
+
+
+        return "boardlist";
+    }
+```
+ 
+
+
 
