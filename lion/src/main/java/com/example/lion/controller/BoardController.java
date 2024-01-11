@@ -2,7 +2,6 @@ package com.example.lion.controller;
 
 import com.example.lion.entity.Board;
 import com.example.lion.entity.Comment;
-import com.example.lion.repository.CommentRepository;
 import com.example.lion.service.BoardService;
 import com.example.lion.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,7 +159,7 @@ public class BoardController {
 
 
     // 댓글 삭제
-    @GetMapping("/comment/delete/{id}")
+    @PostMapping("/comment/delete/{id}")
     public String deleteComment(@PathVariable(name = "id") Long id,
                                 @RequestParam(name = "password") String password,
                                 @RequestParam(name = "board_id") Long board_id,

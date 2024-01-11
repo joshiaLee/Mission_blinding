@@ -97,7 +97,7 @@
   <hr>
   <h4>댓글</h4>
   <th:block th:each="comment : ${board.comments}">
-    <form th:action="@{|/comment/delete/${comment.id}|}">
+    <form th:action="@{|/comment/delete/${comment.id}|}" method="post">
       <br>
       <p th:text="${comment.content}" style="border: 2px solid #ccc; padding: 10px;"></p>
       <div>
