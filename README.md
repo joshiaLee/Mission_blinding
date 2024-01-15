@@ -31,42 +31,7 @@
 - 댓글의 삭제는 게시글 단일 조회 페이지에서 가능합니다.
 - 이 비밀번호가 댓글 작성 당시의 비밀번호와 일치해야 실제로 삭제가 이뤄집니다.
 
-### 컨트롤러 설명
 
-```java
-@GetMapping("/board/list")
-public String board() // 시작 URL로 전체게시판으로 이동합니다
-
-@GetMapping("/board/list/{category}")
-public String boardList() // 해당 카테고리 게시판으로 이동합니다, 검색창을 사용할때도 사용됩니다
-
-@GetMapping("/board/write") 
-public String boardWriteForm() // 게시글 작성 페이지로 이동합니다
-
-@PostMapping("/board/writePro")
-public String boardWritePro() // 작성한 게시글을 저장합니다
-
-@PostMapping("/board/modify/{id}")
-public String boardModify() // 비밀번호가 같다면 게시글 수정 페이지로 이동합니다
-
-@PostMapping("/board/update/{id}")
-public String boardUpdate() // 수정한 게시글을 업데이트 합니다
-
-@GetMapping("/board/view") 
-public String boardView() // 게시판에서 클릭한 게시글에 대한 단일 조회 페이지로 이동합니다
-
-@PostMapping("/board/view") 
-public String boardViewComment() // 게시글에 대한 댓글을 추가합니다
-
-@PostMapping("/comment/delete/{id}")
-public String deleteComment() // 비밀번호가 일치하면 게시글에 달린 댓글을 삭제합니다
-
-@PostMapping("board/delete/{id}")
-public String boardDelete() // 비밀번호가 일치하면 해당 게시글을 삭제합니다
-
-@GetMapping("/hashtag") 
-public String boardHashtag() // 해당 해시태그를 포함하는 게시글들을 조회합니다
-```
 
 ### 도전 과제
 해쉬태그 추출및 검색 기능, 해당게시판에서 제목이나 내용으로 게시판 검색기능 추가
@@ -76,37 +41,7 @@ public String boardHashtag() // 해당 해시태그를 포함하는 게시글들
 게시글을 작성하거나 수정할때 게시글 내용에서 #이 포함된 단어를 추출하기 위해 정규표현식을 이용한 메서드를 작성하였고
 BoardService에서 저장하기 전에 해쉬태그들을 추출합니다.
 이때 게시글 수정(업데이트) 될때에는 전에 저장된 해쉬태그들을 다 비우고 새로 추출하는 방식을 사용했습니다.
-해당 자바 코드는 아래와 같습니다.
-```java
-    public void write(Board board) throws Exception{
 
-        List<String> hashWords = extractHashWords(board.getContent());
-        board.getHashtags().clear();
-
-        for(String tag : hashWords){
-            Hashtag hashtag = new Hashtag(tag);
-
-            hashtagRepository.save(hashtag);
-            board.getHashtags().add(hashtag);
-        }
-        boardRepository.save(board);
-    }
-
-    private static List<String> extractHashWords(String input) {
-        List<String> hashWords = new ArrayList<>();
-        Pattern pattern = Pattern.compile("#([\\p{L}\\p{N}_]+)"); // #으로 시작하고, 그 뒤에 단어 문자(알파벳, 숫자, 언더스코어)가 하나 이상인 패턴
-
-        Matcher matcher = pattern.matcher(input);
-
-        while (matcher.find()) {
-            String hashWord = matcher.group(1);
-            hashWords.add(hashWord);
-        }
-
-        return hashWords;
-    }
-
-```
 추출한 해쉬태그는 게시글의 내용 밑에 달리게되고 각각의 해쉬태그는 링크가 돼서 해당 해쉬태그를 포함한 게시글을 검색하는곳으로 이동합니다.
 이때 게시판은 원래 게시판이랑 큰 차이는 없으나 검색창이 사라지고 게시판 이름이 있는곳에 검색된 해쉬태그가 위치하게 됩니다.
 
@@ -114,48 +49,11 @@ BoardService에서 저장하기 전에 해쉬태그들을 추출합니다.
 searchKeyWord가 없으면 카테고리에 따라 게시물을 조회하고
 searchKeyword가 있으면 제목검색인지 내용검색인지 구분하고 스프링 데이터 JPA를 사용해서 해당 쿼리가 나가도록합니다
 이때 현재 카테고리정보도 포함되게해서 해당게시판에서만 검색을 하도록 구현했습니다.
-이에 대한 자바코드는 아래와 같습니다.
-
-```java
-@GetMapping("/board/list/{category}")
-    public String boardList(Model model,
-                            @PathVariable(name = "category") Integer category,
-                            @RequestParam(name = "searchKeyword", required = false) String searchKeyword,
-                            @RequestParam(name = "toc", required = false) Integer toc){
-
-        List<Board> list = null;
-
-        if(searchKeyword == null){
-            if(category == 1) list = boardService.boardList();
-            else list = boardService.boardListByCategory(category);
-        } else {
-            // 전체 게시글에서
-            if(category == 1){
-                // 제목 검색
-                if(toc == 1) list = boardService.boardSearchByTitleContaining(searchKeyword);
-                // 내용 검색
-                else list = boardService.boardSearchByContentContaining(searchKeyword);
 
 
-            }
-            // 특정 카테고리 게시글에서
-            else {
-                // 제목과 카테고리 검색
-                if(toc == 1) list = boardService.boardSearchByTitleAndCategory(searchKeyword, category);
-                // 내용과 카테고리 검색
-                else list = boardService.boardSearchByContentAndCategory(searchKeyword, category);
-            }
-        }
-
-        Collections.reverse(list);
-
-        model.addAttribute("category", category);
-        model.addAttribute("list", list); // 리턴값이 "list"로 넘어간다
-
-
-        return "boardlist";
-    }
-```
+### 이전글, 다음글 기능
+현재 카테고리(어떤 게시판)인지에 따라서 이전글과 다음글을 갈수있도록 버튼을 추가하였습니다.
+맨 마지막글이나 맨 처음글에 도착하면 알림 메시지가 나오도록 구현했습니다.
 
 ### 프로젝트 진행중 발생한 어려움
 1. **git 사용**
