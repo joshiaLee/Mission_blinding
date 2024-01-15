@@ -123,8 +123,14 @@
       <input id="commentBtn" type="submit" value="댓글 쓰기" />
     </div>
   </form>
+
   <hr>
+  <br>
   <a th:href="@{/board/list/{categoryId}(categoryId = ${category})}">목록</a>
+  <a th:href="@{/board/prev(id=${board.id}, category=${category})}">이전글</a>
+  <a th:href="@{/board/next(id=${board.id}, category=${category})}">다음글</a>
+  <br>
+  <br>
 
   <form th:action="@{/board/modify/{id}(id = ${board.id})}" method="post">
     <div>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -126,7 +127,7 @@ public class BoardController {
 
 
 
-    @GetMapping("/board/view") // localhost:8080/board/view?id=1?category=1?
+    @GetMapping("/board/view") // localhost:8080/board/view?id=1&category=1
     public String boardView(Model model,
                             @RequestParam(name = "id") Long id,
                             @RequestParam(name = "category") Integer category){
@@ -138,7 +139,7 @@ public class BoardController {
     }
 
     //댓글 달기
-    @PostMapping("/board/view") // localhost:8080/board/view?id=1?category=1?
+    @PostMapping("/board/view") // localhost:8080/board/view?id=1&category=1
     public String boardViewComment(@ModelAttribute Comment comment,
                                    @RequestParam(name = "id") Long id,
                                    @RequestParam(name = "category") Integer category,
@@ -218,6 +219,58 @@ public class BoardController {
         model.addAttribute("tag", tag);
         return "boardlisthash";
     }
+
+    // 이전글
+    @GetMapping("/board/prev") // localhost:8080/board/prev?id=9&category=2
+    public String boardPrev(@RequestParam(name = "id") Long id,
+                            @RequestParam(name = "category") Integer category,
+                            Model model){
+        Optional<Board> board;
+        if(category == 1) board = boardService.boardPrevAll(id);
+        else board = boardService.boardPrevByCategory(id, category);
+
+        if(board.isPresent()){
+            model.addAttribute("board", board.get());
+            model.addAttribute("category", category);
+            
+            return "boardview";
+        }
+        
+        else{
+            model.addAttribute("message", "맨 처음 글 입니다.");
+            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+
+            return "message";
+                    
+        }
+
+    }
+
+    // 다음글
+    @GetMapping("/board/next") // localhost:8080/board/next?id=9&category=2
+    public String boardNext(@RequestParam(name = "id") Long id,
+                            @RequestParam(name = "category") Integer category,
+                            Model model){
+        Optional<Board> board;
+        if(category == 1) board = boardService.boardNextAll(id);
+        else board = boardService.boardNextByCategory(id, category);
+
+        if(board.isPresent()){
+            model.addAttribute("board", board.get());
+            model.addAttribute("category", category);
+
+            return "boardview";
+        }
+
+        else{
+            model.addAttribute("message", "맨 마지막 글 입니다.");
+            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+
+            return "message";
+
+        }
+    }
+
 
     private Board changeBoard(Long id, Board board) {
         Board boardTemp = boardService.boardView(id);

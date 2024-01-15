@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,6 +85,21 @@ public class BoardService {
         return boardRepository.findByHashtagsTag(tag);
     }
 
+    public Optional<Board> boardPrevAll(Long id) {
+        return boardRepository.findFirstByIdLessThanOrderByIdDesc(id);
+    }
+
+    public Optional<Board> boardPrevByCategory(Long id, Integer category){
+        return boardRepository.findFirstByIdLessThanAndCategoryOrderByIdDesc(id, category);
+    }
+
+    public Optional<Board> boardNextAll(Long id){
+        return boardRepository.findFirstByIdGreaterThan(id);
+    }
+
+    public Optional<Board> boardNextByCategory(Long id, Integer category){
+        return boardRepository.findFirstByIdGreaterThanAndCategory(id, category);
+    }
 
     private static List<String> extractHashWords(String input) {
         List<String> hashWords = new ArrayList<>();
