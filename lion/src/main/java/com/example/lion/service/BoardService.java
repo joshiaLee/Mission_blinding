@@ -4,6 +4,7 @@ import com.example.lion.entity.Board;
 import com.example.lion.entity.Hashtag;
 import com.example.lion.repository.BoardRepository;
 import com.example.lion.repository.HashtagRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,11 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class BoardService {
 
-    @Autowired private BoardRepository boardRepository;
-    @Autowired private HashtagRepository hashtagRepository;
+    private final BoardRepository boardRepository;
+    private final HashtagRepository hashtagRepository;
 
     public void join(Board board){
         boardRepository.save(board);

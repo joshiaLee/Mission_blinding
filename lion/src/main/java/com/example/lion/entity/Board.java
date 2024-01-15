@@ -25,7 +25,8 @@ public class Board {
     @OneToMany(mappedBy = "board", orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,orphanRemoval = true)
+    // cascade 옵션으로 변경시 Hashtag 테이블까지 전파된다.
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Hashtag> hashtags = new ArrayList<>();
 
 

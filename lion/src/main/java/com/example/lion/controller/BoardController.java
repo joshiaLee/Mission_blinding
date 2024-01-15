@@ -4,6 +4,7 @@ import com.example.lion.entity.Board;
 import com.example.lion.entity.Comment;
 import com.example.lion.service.BoardService;
 import com.example.lion.service.CommentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +15,11 @@ import java.util.List;
 
 
 @Controller
+@RequiredArgsConstructor
 public class BoardController {
 
-    @Autowired BoardService boardService;
-    @Autowired CommentService commentService;
+    private final BoardService boardService;
+    private final CommentService commentService;
 
 
     @GetMapping("/board/list")
