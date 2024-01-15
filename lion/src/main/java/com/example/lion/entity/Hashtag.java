@@ -16,11 +16,15 @@ public class Hashtag {
 
     private String tag;
 
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
-    public Hashtag(String tag) {
+    // 연관관계 편의 메서드
+    public void changeHashtag(Board board, String tag) {
         this.tag = tag;
+        this.board = board;
+        board.getHashtags().add(this);
     }
 
-    public Hashtag() {
-    }
 }
