@@ -112,18 +112,15 @@ public class BoardController {
                               @RequestParam(name = "category") Integer category,
                               Model model) throws Exception{
 
-        Board boardTemp = boardService.boardView(id);
+        Board changedBoard = changeBoard(id, board);
 
-        boardTemp.setTitle(board.getTitle());
-        boardTemp.setContent(board.getContent());
-        boardTemp.setCategory(board.getCategory());
-
-        boardService.write(boardTemp);
+        boardService.write(changedBoard);
 
         model.addAttribute("message", "글 수정이 완료되었습니다.");
         model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
         return "message";
     }
+
 
 
 
@@ -218,5 +215,15 @@ public class BoardController {
         model.addAttribute("list", list);
         model.addAttribute("tag", tag);
         return "boardlisthash";
+    }
+
+    private Board changeBoard(Long id, Board board) {
+        Board boardTemp = boardService.boardView(id);
+
+        boardTemp.setTitle(board.getTitle());
+        boardTemp.setContent(board.getContent());
+        boardTemp.setCategory(board.getCategory());
+
+        return boardTemp;
     }
 }
