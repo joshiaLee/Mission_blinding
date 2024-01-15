@@ -146,11 +146,9 @@ public class BoardController {
                                    Model model){
 
         Board curBoard = boardService.boardView(id);
-        Comment newComment = new Comment(comment.getContent(), comment.getPassword());
-        curBoard.getComments().add(newComment);
-
+        Comment newComment = new Comment();
+        newComment.changeComment(curBoard, comment);
         commentService.join(newComment);
-        boardService.join(curBoard);
 
 
         model.addAttribute("board", curBoard);

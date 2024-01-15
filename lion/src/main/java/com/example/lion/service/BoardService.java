@@ -27,15 +27,17 @@ public class BoardService {
     public void write(Board board) throws Exception{
 
         List<String> hashWords = extractHashWords(board.getContent());
+        // @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
         board.getHashtags().clear();
+        // cascade = CascadeType.ALL 옵션으로 인해 해쉬태그 리스트가 초기화 되고 save 하는 순간 delete 쿼리 나감
+        boardRepository.save(board);
 
         for(String tag : hashWords){
-            Hashtag hashtag = new Hashtag(tag);
+            Hashtag hashtag = new Hashtag();
+            hashtag.changeHashtag(board, tag);
 
             hashtagRepository.save(hashtag);
-            board.getHashtags().add(hashtag);
         }
-        boardRepository.save(board);
     }
 
 
