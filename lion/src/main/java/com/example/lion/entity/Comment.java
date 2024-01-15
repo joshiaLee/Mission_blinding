@@ -17,13 +17,17 @@ public class Comment {
 
     private String password;
 
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
-    public Comment(String content, String password) {
-        this.content = content;
-        this.password = password;
+    // 연관관계 편의 메서드
+    public void changeComment(Board curBoard, Comment comment) {
+        this.content = comment.getContent();
+        this.password = comment.getPassword();
+        this.board = curBoard;
+        board.getComments().add(this);
+
     }
 
-    public Comment(){
-
-    }
 }
