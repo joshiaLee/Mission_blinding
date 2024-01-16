@@ -29,5 +29,8 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Hashtag> hashtags = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", orphanRemoval = true)
+    private List<ImageEntity> images = new ArrayList<>();
+
 
 }
