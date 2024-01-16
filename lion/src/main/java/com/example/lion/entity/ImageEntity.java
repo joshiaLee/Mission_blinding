@@ -18,4 +18,11 @@ public class ImageEntity {
     private String uploadFileName;
     private String storeFileName;
 
+
+    public void changeImageEntity(Board board, String uploadFileName, String storeFileName) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
+        this.board = board;
+        board.getImages().add(this);
+    }
 }

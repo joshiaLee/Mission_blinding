@@ -2,19 +2,30 @@ package com.example.lion.controller;
 
 import com.example.lion.entity.Board;
 import com.example.lion.entity.Comment;
+import com.example.lion.entity.ImageEntity;
+import com.example.lion.repository.ImageEntityRepository;
 import com.example.lion.service.BoardService;
 import com.example.lion.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
@@ -22,6 +33,7 @@ public class BoardController {
     private final BoardService boardService;
     private final CommentService commentService;
 
+    private final ImageEntityRepository imageEntityRepository;
 
     @GetMapping("/board/list")
     public String board(){
@@ -271,7 +283,67 @@ public class BoardController {
         }
     }
 
+    // 게시물 사진 업로드
+    @PostMapping("/upload")
+    public String boardUpload(@RequestParam(name = "id") Long id,
+                              @RequestParam(name = "password") String password,
+                              @RequestParam(name = "category") Integer category,
+                              MultipartFile file,
+                              Model model) throws IOException {
 
+        Board curBoard = boardService.boardView(id);
+
+        if(curBoard.getPassword().equals(password)){
+            if(!file.isEmpty()) {
+
+                // 현재 클래스에서 이미지 파일까지 절대경로 추출
+                String projectPath = extractPath();
+
+                // 보안상 UUID 사용
+                UUID uuid = UUID.randomUUID();
+                String fileName = uuid + file.getOriginalFilename();
+
+                // 파일 객체 생성(절대경로, 파일이름)
+                File saveFile = new File(projectPath, fileName);
+
+                // 절대경로에 파일 저장
+                file.transferTo(saveFile);
+
+                ImageEntity imageEntity = new ImageEntity();
+                imageEntity.changeImageEntity(curBoard ,fileName, projectPath + fileName);
+
+                // ImageEntity 저장
+                imageEntityRepository.save(imageEntity);
+
+            }
+
+            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            return "message2";
+        }
+
+        else{
+            model.addAttribute("message", "비밀번호가 다릅니다.");
+            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            return "message";
+        }
+    }
+
+
+
+    // 이미지 보기(이거 없으면 액박뜸)
+    @GetMapping("/images/{filename}")
+    public @ResponseBody Resource downloadImage(@PathVariable(name = "filename") String filename) throws MalformedURLException {
+
+
+        String projectPath = extractPath();
+        log.info(filename);
+        log.info(filename);
+        log.info(filename);
+        return new UrlResource("file:" + projectPath + filename);
+    }
+
+
+    // 게시글 값 수정 메서드
     private Board changeBoard(Long id, Board board) {
         Board boardTemp = boardService.boardView(id);
 
@@ -280,5 +352,19 @@ public class BoardController {
         boardTemp.setCategory(board.getCategory());
 
         return boardTemp;
+    }
+
+    // 현재 클래스 기준 이미지 파일까지 절대 경로 추출 메서드
+    private static String extractPath() {
+        Class<?> clazz = BoardController.class;
+
+        // 클래스의 위치를 나타내는 URL을 가져옴
+        URL location = clazz.getProtectionDomain().getCodeSource().getLocation();
+        String fullPath = location.getPath();
+
+        int index = fullPath.indexOf("/build");
+
+        String projectPath = fullPath.substring(0, index) + "/src/main/java/com/example/images/";
+        return projectPath;
     }
 }

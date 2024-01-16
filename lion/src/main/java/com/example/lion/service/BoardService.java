@@ -23,6 +23,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final HashtagRepository hashtagRepository;
 
+
+
     public void join(Board board){
         boardRepository.save(board);
     }
