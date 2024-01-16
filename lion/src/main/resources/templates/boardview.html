@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <title>게시글 상세 페이지</title>
   <style>
+
+    input[type="password"] {
+      width: 90px; /* 원하는 너비로 조절 */
+    }
+
     body {
       background-color: #f2f2f2;
       font-family: Arial, sans-serif;
@@ -89,8 +94,20 @@
     <br>
     <h3 th:text="${board.title}" style="border-top: 2px solid #555; padding-top: 10px;">제목입니다.</h3>
   </div>
+  <th:block th:each="image : ${board.images}">
+
+  </th:block>
   <p th:text="${board.content}" style="border: 2px solid #ccc; padding: 10px;">내용이 들어갈 부분입니다.</p>
   <br>
+
+  <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+    <label for="file">파일 선택:</label> <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png">
+    <label for="pw">비밀번호:</label>
+    <input type="password" id="pw" name="password">
+    <input type="submit" value="사진 업로드">
+  </form>
+  <br>
+
   <th:block th:each="hashtag : ${board.hashtags}">
     <a th:href="@{/hashtag(tag=${hashtag.tag})}" th:text="'#' + ${hashtag.tag}" ></a>
   </th:block>
