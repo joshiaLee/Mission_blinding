@@ -146,6 +146,7 @@ public class BoardController {
 
 
 
+    // 단일 조회 페이지
 
     @GetMapping("/board/view") // localhost:8080/board/view?id=1&category=1&tag=dream
     public String boardView(Model model,
@@ -161,7 +162,7 @@ public class BoardController {
         return "boardview";
     }
 
-    // 댓글 달기
+    // 단일 조회 페이지(댓글 달기)
     @PostMapping("/board/view") // localhost:8080/board/view?id=1&category=1
     public String boardViewComment(@ModelAttribute Comment comment,
                                    @RequestParam(name = "id") Long id,
@@ -239,8 +240,10 @@ public class BoardController {
 
         else{
             model.addAttribute("message", "비밀번호가 다릅니다.");
-            if(tag == null) model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
-            else model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category + "&tag=" + tag);
+            String url = "/board/view?id=" + id + "&category=" + category;
+            if(tag != null) url = url + "&tag=" + tag;
+
+            model.addAttribute("searchUrl", url);
             return "message";
         }
     }
