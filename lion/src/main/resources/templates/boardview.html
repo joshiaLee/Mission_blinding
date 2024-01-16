@@ -86,6 +86,10 @@
       margin: auto; /* 수평 가운데 정렬 */
     }
 
+
+
+
+
   </style>
 </head>
 <body>
@@ -96,6 +100,17 @@
   </div>
   <div th:each="image : ${board.images}" >
     <img th:src="|/images/${image.getUploadFileName()}|" width="300" height="300" >
+
+    <div class="image-actions" style="text-align: center">
+      <form th:action="@{/image/delete/{imageId}(imageId=${image.id})}" method="post">
+        <label for="imagePassword">비밀번호:</label>
+        <input type="hidden" name="board_id" th:value="${board.id}">
+        <input type="hidden" name="category" th:value="${category}">
+        <input type="password" id="imagePassword" name="imagePassword" />
+        <input type="submit" value="이미지 삭제">
+      </form>
+    </div>
+    <br>
   </div>
   <p th:text="${board.content}" style="border: 2px solid #ccc; padding: 10px;">내용이 들어갈 부분입니다.</p>
   <br>

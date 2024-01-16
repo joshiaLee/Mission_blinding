@@ -6,6 +6,7 @@ import com.example.lion.entity.ImageEntity;
 import com.example.lion.repository.ImageEntityRepository;
 import com.example.lion.service.BoardService;
 import com.example.lion.service.CommentService;
+import com.example.lion.service.ImageEntityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -33,7 +34,7 @@ public class BoardController {
     private final BoardService boardService;
     private final CommentService commentService;
 
-    private final ImageEntityRepository imageEntityRepository;
+    private final ImageEntityService imageEntityService;
 
     @GetMapping("/board/list")
     public String board(){
@@ -173,7 +174,7 @@ public class BoardController {
     @PostMapping("/comment/delete/{id}")
     public String deleteComment(@PathVariable(name = "id") Long id,
                                 @RequestParam(name = "password") String password,
-                                @RequestParam(name = "board_id") Long board_id,
+                                @RequestParam(name = "board_id") Long boardId,
                                 @RequestParam(name = "category") Integer category,
                                 Model model){
 
@@ -182,14 +183,14 @@ public class BoardController {
 
         if(!comment.getPassword().equals(password)){
             model.addAttribute("message", "비밀번호가 다릅니다.");
-            model.addAttribute("searchUrl", "/board/view?id=" + board_id + "&category=" + category);
+            model.addAttribute("searchUrl", "/board/view?id=" + boardId + "&category=" + category);
             return "message";
         }
 
         commentService.delete(comment);
 
         model.addAttribute("message", "댓글이 삭제되었습니다.");
-        model.addAttribute("searchUrl", "/board/view?id=" + board_id + "&category=" + category);
+        model.addAttribute("searchUrl", "/board/view?id=" + boardId + "&category=" + category);
 
         return "message";
 
@@ -221,6 +222,7 @@ public class BoardController {
         }
     }
 
+    // 해쉬태그 검색
     @GetMapping("/hashtag") // localhost:8080/hashtag?tag=dream
     public String boardHashtag(@RequestParam(name = "tag") String tag,
                                Model model){
@@ -313,12 +315,12 @@ public class BoardController {
                 imageEntity.changeImageEntity(curBoard ,fileName, projectPath + fileName);
 
                 // ImageEntity 저장
-                imageEntityRepository.save(imageEntity);
+                imageEntityService.ImageJoin(imageEntity);
 
             }
 
             model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
-            return "message2";
+            return "noMessage";
         }
 
         else{
@@ -340,6 +342,30 @@ public class BoardController {
         log.info(filename);
         log.info(filename);
         return new UrlResource("file:" + projectPath + filename);
+    }
+
+    // 이미지 삭제
+    @PostMapping("/image/delete/{imageId}")
+    public String deleteImage(@PathVariable(name = "imageId") Long imageId,
+                              @RequestParam(name = "imagePassword") String imagePassword,
+                              @RequestParam(name = "board_id") Long boardId,
+                              @RequestParam(name = "category") Integer category,
+                              Model model){
+        Board curBoard = boardService.boardView(boardId);
+
+        if(curBoard.getPassword().equals(imagePassword)){
+            imageEntityService.ImageDeleteById(imageId);
+
+            model.addAttribute("searchUrl", "/board/view?id=" + boardId + "&category=" + category);
+            return "noMessage";
+        }
+
+        else{
+            model.addAttribute("message", "비밀번호가 다릅니다.");
+            model.addAttribute("searchUrl", "/board/view?id=" + boardId + "&category=" + category);
+            return "message";
+        }
+
     }
 
 
