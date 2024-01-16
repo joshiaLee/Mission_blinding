@@ -33,7 +33,6 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
-
     private final ImageEntityService imageEntityService;
 
     @GetMapping("/board/list")
@@ -102,6 +101,7 @@ public class BoardController {
     public String boardModify(@PathVariable(name = "id") Long id,
                               @RequestParam(name = "password") String password,
                               @RequestParam(name = "category") Integer category,
+                              @RequestParam(name = "tag", required = false) String tag,
                               Model model){
 
 
@@ -110,10 +110,14 @@ public class BoardController {
 
         if (currentBoard.getPassword().equals(password)) {
             model.addAttribute("board", boardService.boardView(id));
+            model.addAttribute("tag", tag);
             return "boardmodify";
+
         } else {
             model.addAttribute("message", "비밀번호가 다릅니다.");
-            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            if(tag == null) model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            else model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category + "&tag=" + tag);
+
             return "message";
         }
 
@@ -126,14 +130,17 @@ public class BoardController {
     public String boardUpdate(@PathVariable("id") Long id,
                               @ModelAttribute Board board,
                               @RequestParam(name = "category") Integer category,
+                              @RequestParam(name = "tag", required = false) String tag,
                               Model model) throws Exception{
 
         Board changedBoard = changeBoard(id, board);
+        String url = "/board/view?id=" + id + "&category=" + category;
+        if(tag != null) url = url + "&tag=" + tag;
 
         boardService.write(changedBoard);
 
         model.addAttribute("message", "글 수정이 완료되었습니다.");
-        model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+        model.addAttribute("searchUrl", url);
         return "message";
     }
 
