@@ -105,6 +105,9 @@
       <form th:action="@{/image/delete/{imageId}(imageId=${image.id})}" method="post">
         <label for="imagePassword">비밀번호:</label>
         <input type="hidden" name="board_id" th:value="${board.id}">
+        <th:block th:if="${tag}">
+          <input type="hidden" name="tag" th:value="${tag}" />
+        </th:block>
         <input type="hidden" name="category" th:value="${category}">
         <input type="password" id="imagePassword" name="imagePassword" />
         <input type="submit" value="이미지 삭제">
@@ -120,6 +123,9 @@
     <label for="pw">비밀번호:</label>
     <input type="hidden" name="id" th:value="${board.id}">
     <input type="hidden" name="category" th:value="${category}">
+    <th:block th:if="${tag}">
+      <input type="hidden" name="tag" th:value="${tag}" />
+    </th:block>
     <input type="password" id="pw" name="password">
     <input type="submit" value="사진 업로드">
   </form>
@@ -139,6 +145,9 @@
         <input type="password" name="password" style="display: inline-block; margin-left: 5px;" />
         <input type="hidden" name="board_id" th:value="${board.id}" />
         <input type="hidden" name="category" th:value="${category}" />
+        <th:block th:if="${tag}">
+          <input type="hidden" name="tag" th:value="${tag}" />
+        </th:block>
         <input type="submit" value="댓글 삭제">
       </div>
 
@@ -160,9 +169,15 @@
 
   <hr>
   <br>
+  <th:block th:unless="${tag}">
   <a th:href="@{/board/list/{categoryId}(categoryId = ${category})}">목록</a>
   <a th:href="@{/board/prev(id=${board.id}, category=${category})}">이전글</a>
   <a th:href="@{/board/next(id=${board.id}, category=${category})}">다음글</a>
+  </th:block>
+
+  <th:block th:if="${tag}">
+    <a th:href="@{/hashtag(tag=${tag})}">목록</a>
+  </th:block>
   <br>
   <br>
 
@@ -180,6 +195,9 @@
       <label for="password" style="display: inline-block;">비밀번호:</label>
       <input type="password" name="password" style="display: inline-block; margin-left: 5px;" />
       <input type="hidden" name="category" th:value="${category}" />
+      <th:block th:if="${tag}">
+        <input type="hidden" name="tag" th:value="${tag}" />
+      </th:block>
       <input type="submit" value="게시글 삭제">
     </div>
   </form>

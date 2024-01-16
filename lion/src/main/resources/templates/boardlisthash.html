@@ -121,7 +121,7 @@
     <tr th:each="board : ${list}">
       <!--          localhost:8080/board/view?id=board.id   쿼리 스트링 /-->
       <td>
-        <a th:text="${board.title}" th:href="@{/board/view(id=${board.id}, category=${board.category})}" style="text-decoration: none;"></a>
+        <a th:text="${board.title}" th:href="@{/board/view(id=${board.id}, category=${board.category}, tag=${tag})}" style="text-decoration: none;"></a>
       </td>
 
     </tr>

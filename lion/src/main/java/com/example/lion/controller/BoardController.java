@@ -140,22 +140,26 @@ public class BoardController {
 
 
 
-    @GetMapping("/board/view") // localhost:8080/board/view?id=1&category=1
+    @GetMapping("/board/view") // localhost:8080/board/view?id=1&category=1&tag=dream
     public String boardView(Model model,
                             @RequestParam(name = "id") Long id,
-                            @RequestParam(name = "category") Integer category){
+                            @RequestParam(name = "category") Integer category,
+                            @RequestParam(name = "tag", required = false) String tag){
         Board board = boardService.boardView(id);
 
         model.addAttribute("board", board);
         model.addAttribute("category", category);
+        model.addAttribute("tag", tag);
+
         return "boardview";
     }
 
-    //댓글 달기
+    // 댓글 달기
     @PostMapping("/board/view") // localhost:8080/board/view?id=1&category=1
     public String boardViewComment(@ModelAttribute Comment comment,
                                    @RequestParam(name = "id") Long id,
                                    @RequestParam(name = "category") Integer category,
+                                   @RequestParam(name = "tag", required = false) String tag,
                                    Model model){
 
         Board curBoard = boardService.boardView(id);
@@ -166,6 +170,8 @@ public class BoardController {
 
         model.addAttribute("board", curBoard);
         model.addAttribute("category", category);
+        model.addAttribute("tag", tag);
+
         return "boardview";
     }
 
@@ -176,21 +182,27 @@ public class BoardController {
                                 @RequestParam(name = "password") String password,
                                 @RequestParam(name = "board_id") Long boardId,
                                 @RequestParam(name = "category") Integer category,
+                                @RequestParam(name = "tag", required = false) String tag,
                                 Model model){
 
 
         Comment comment = commentService.findById(id);
+        String url = "/board/view?id=" + boardId + "&category=" + category;
+
+        if(tag != null) url = url + "&tag=" + tag;
+
 
         if(!comment.getPassword().equals(password)){
             model.addAttribute("message", "비밀번호가 다릅니다.");
-            model.addAttribute("searchUrl", "/board/view?id=" + boardId + "&category=" + category);
+            model.addAttribute("searchUrl", url);
+
             return "message";
         }
 
         commentService.delete(comment);
 
         model.addAttribute("message", "댓글이 삭제되었습니다.");
-        model.addAttribute("searchUrl", "/board/view?id=" + boardId + "&category=" + category);
+        model.addAttribute("searchUrl", url);
 
         return "message";
 
@@ -201,6 +213,7 @@ public class BoardController {
     public String boardDelete(@PathVariable(name = "id") Long id,
                               @RequestParam(name = "password") String password,
                               @RequestParam(name = "category") Integer category,
+                              @RequestParam(name = "tag", required = false) String tag,
                               Model model){
 
 
@@ -211,13 +224,16 @@ public class BoardController {
             boardService.boardDelete(id);
 
             model.addAttribute("message", "게시글이 삭제되었습니다.");
-            model.addAttribute("searchUrl", "/board/list/" + category);
+
+            if(tag == null) model.addAttribute("searchUrl", "/board/list/" + category);
+            else model.addAttribute("searchUrl", "/hashtag?tag=" + tag);
             return "message";
         }
 
         else{
             model.addAttribute("message", "비밀번호가 다릅니다.");
-            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            if(tag == null) model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            else model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category + "&tag=" + tag);
             return "message";
         }
     }
@@ -290,10 +306,13 @@ public class BoardController {
     public String boardUpload(@RequestParam(name = "id") Long id,
                               @RequestParam(name = "password") String password,
                               @RequestParam(name = "category") Integer category,
+                              @RequestParam(name = "tag", required = false) String tag,
                               MultipartFile file,
                               Model model) throws IOException {
 
         Board curBoard = boardService.boardView(id);
+        String url = "/board/view?id=" + id + "&category=" + category;
+        if(tag != null) url = url + "&tag=" + tag;
 
         if(curBoard.getPassword().equals(password)){
             if(!file.isEmpty()) {
@@ -319,13 +338,13 @@ public class BoardController {
 
             }
 
-            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            model.addAttribute("searchUrl", url);
             return "noMessage";
         }
 
         else{
             model.addAttribute("message", "비밀번호가 다릅니다.");
-            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            model.addAttribute("searchUrl", url);
             return "message";
         }
     }
@@ -346,19 +365,22 @@ public class BoardController {
                               @RequestParam(name = "imagePassword") String imagePassword,
                               @RequestParam(name = "board_id") Long boardId,
                               @RequestParam(name = "category") Integer category,
+                              @RequestParam(name = "tag", required = false) String tag,
                               Model model){
         Board curBoard = boardService.boardView(boardId);
+        String url = "/board/view?id=" + boardId + "&category=" + category;
+        if(tag != null) url = url + "&tag=" + tag;
 
         if(curBoard.getPassword().equals(imagePassword)){
             imageEntityService.ImageDeleteById(imageId);
 
-            model.addAttribute("searchUrl", "/board/view?id=" + boardId + "&category=" + category);
+            model.addAttribute("searchUrl", url);
             return "noMessage";
         }
 
         else{
             model.addAttribute("message", "비밀번호가 다릅니다.");
-            model.addAttribute("searchUrl", "/board/view?id=" + boardId + "&category=" + category);
+            model.addAttribute("searchUrl", url);
             return "message";
         }
 
