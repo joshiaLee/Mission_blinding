@@ -336,11 +336,7 @@ public class BoardController {
     @GetMapping("/images/{filename}")
     public @ResponseBody Resource downloadImage(@PathVariable(name = "filename") String filename) throws MalformedURLException {
 
-
         String projectPath = extractPath();
-        log.info(filename);
-        log.info(filename);
-        log.info(filename);
         return new UrlResource("file:" + projectPath + filename);
     }
 
