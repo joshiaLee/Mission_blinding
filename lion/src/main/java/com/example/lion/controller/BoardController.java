@@ -115,8 +115,11 @@ public class BoardController {
 
         } else {
             model.addAttribute("message", "비밀번호가 다릅니다.");
-            if(tag == null) model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
-            else model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category + "&tag=" + tag);
+
+            String url = "/board/view?id=" + id + "&category=" + category;
+            if(tag != null) url = url + "&tag=" + tag;
+
+            model.addAttribute("searchUrl", url);
 
             return "message";
         }
@@ -264,24 +267,31 @@ public class BoardController {
     @GetMapping("/board/prev") // localhost:8080/board/prev?id=9&category=2
     public String boardPrev(@RequestParam(name = "id") Long id,
                             @RequestParam(name = "category") Integer category,
+                            @RequestParam(name = "tag", required = false) String tag,
                             Model model){
         Optional<Board> board;
-        if(category == 1) board = boardService.boardPrevAll(id);
+        String url;
+
+        if(tag != null) board = boardService.boardPrevHash(id, tag);
+        else if (category == 1) board = boardService.boardPrevAll(id);
         else board = boardService.boardPrevByCategory(id, category);
 
         if(board.isPresent()){
-            model.addAttribute("board", board.get());
-            model.addAttribute("category", category);
-            
-            return "boardview";
+            url = "/board/view?id=" + board.get().getId() + "&category=" + category;
+            if(tag != null) url = url + "&tag=" + tag;
+
+            model.addAttribute("searchUrl", url);
+            return "noMessage";
         }
         
         else{
+            url = "/board/view?id=" + id + "&category=" + category;
+            if(tag != null) url = url + "&tag=" + tag;
+
             model.addAttribute("message", "맨 처음 글 입니다.");
-            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            model.addAttribute("searchUrl", url);
 
             return "message";
-                    
         }
 
     }
@@ -290,24 +300,32 @@ public class BoardController {
     @GetMapping("/board/next") // localhost:8080/board/next?id=9&category=2
     public String boardNext(@RequestParam(name = "id") Long id,
                             @RequestParam(name = "category") Integer category,
+                            @RequestParam(name = "tag", required = false) String tag,
                             Model model){
         Optional<Board> board;
-        if(category == 1) board = boardService.boardNextAll(id);
+        String url;
+
+        if(tag != null) board = boardService.boardNextHash(id, tag);
+        else if (category == 1) board = boardService.boardNextAll(id);
         else board = boardService.boardNextByCategory(id, category);
 
-        if(board.isPresent()){
-            model.addAttribute("board", board.get());
-            model.addAttribute("category", category);
 
-            return "boardview";
+        if(board.isPresent()){
+            url = "/board/view?id=" + board.get().getId() + "&category=" + category;
+            if(tag != null) url = url + "&tag=" + tag;
+
+            model.addAttribute("searchUrl", url);
+            return "noMessage";
         }
 
         else{
+            url = "/board/view?id=" + id + "&category=" + category;
+            if(tag != null) url = url + "&tag=" + tag;
+
             model.addAttribute("message", "맨 마지막 글 입니다.");
-            model.addAttribute("searchUrl", "/board/view?id=" + id + "&category=" + category);
+            model.addAttribute("searchUrl", url);
 
             return "message";
-
         }
     }
 

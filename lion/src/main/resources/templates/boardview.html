@@ -99,7 +99,7 @@
     <h3 th:text="${board.title}" style="border-top: 2px solid #555; padding-top: 10px;">제목입니다.</h3>
   </div>
   <div th:each="image : ${board.images}" >
-    <img th:src="|/images/${image.getUploadFileName()}|" width="300" height="300" >
+    <img th:src="|/images/${image.getUploadFileName()}|" width="600" height="600" >
 
     <div class="image-actions" style="text-align: center">
       <form th:action="@{/image/delete/{imageId}(imageId=${image.id})}" method="post">
@@ -177,6 +177,9 @@
 
   <th:block th:if="${tag}">
     <a th:href="@{/hashtag(tag=${tag})}">목록</a>
+    <a th:href="@{/board/prev(id=${board.id}, category=${category}, tag=${tag})}">이전글</a>
+    <a th:href="@{/board/next(id=${board.id}, category=${category}, tag=${tag})}">다음글</a>
+
   </th:block>
   <br>
   <br>

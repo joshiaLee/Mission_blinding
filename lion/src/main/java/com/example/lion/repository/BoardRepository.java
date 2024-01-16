@@ -24,6 +24,12 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByHashtagsTag(String tag);
 
+    // 해쉬태그 검색중 이전글 하나
+    Optional<Board> findFirstByIdLessThanAndHashtagsTagOrderByIdDesc(Long id, String tag);
+
+    // 해쉬태그 검색중 다음글 하나
+    Optional<Board> findFirstByIdGreaterThanAndHashtagsTag(Long id, String tag);
+
     // 전체글중 이전글 하나
     Optional<Board> findFirstByIdLessThanOrderByIdDesc(Long id);
 

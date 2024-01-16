@@ -87,6 +87,14 @@ public class BoardService {
         return boardRepository.findByHashtagsTag(tag);
     }
 
+    public Optional<Board> boardPrevHash(Long id, String tag){
+        return boardRepository.findFirstByIdLessThanAndHashtagsTagOrderByIdDesc(id, tag);
+    }
+
+    public Optional<Board> boardNextHash(Long id, String tag){
+        return boardRepository.findFirstByIdGreaterThanAndHashtagsTag(id, tag);
+    }
+
     public Optional<Board> boardPrevAll(Long id) {
         return boardRepository.findFirstByIdLessThanOrderByIdDesc(id);
     }
