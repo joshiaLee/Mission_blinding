@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Slf4j
@@ -426,17 +428,28 @@ public class BoardController {
         return boardTemp;
     }
 
-    // 현재 클래스 기준 이미지 파일까지 절대 경로 추출 메서드
-    private static String extractPath() {
-        Class<?> clazz = BoardController.class;
 
-        // 클래스의 위치를 나타내는 URL을 가져옴
+
+    private static String extractPath() {
+
+        Class<?> clazz = BoardController.class;
+        // 정규식 패턴 설정
+
+                // 클래스의 위치를 나타내는 URL을 가져옴
         URL location = clazz.getProtectionDomain().getCodeSource().getLocation();
         String fullPath = location.getPath();
 
-        int index = fullPath.indexOf("/build");
+        String pattern = "(/home.+?)/build";
+        Pattern regex = Pattern.compile(pattern);
 
-        String projectPath = fullPath.substring(0, index) + "/src/main/java/com/example/images/";
-        return projectPath;
+        // 매칭 수행
+        Matcher matcher = regex.matcher(fullPath);
+        if (matcher.find()) {
+            // 매칭된 부분 반환
+            return matcher.group(1) + "/src/main/java/com/example/images/";
+        } else {
+            // 매칭되지 않은 경우 예외처리 또는 기본값 반환 가능
+            return "";
+        }
     }
 }

@@ -13,29 +13,27 @@ class LionApplicationTests {
 
 	@Test
 	void contextLoads() {
-		String inputString = "이것은 #java 코드입니다. #프로그래밍은 재미있습니다. #코딩 #자바개발자";
+		String fullPath = "/tmp/tomcat.8080.17288858922850441020/work/Tomcat/localhost/ROOT/nested:/home/ubuntu/Mission_blinding/lion/build/xxx";
+		String matchedPath = extractMatchedPath(fullPath);
 
-		List<String> hashWords = extractHashWords(inputString);
-
-		System.out.println("추출된 단어들:");
-		for (String word : hashWords) {
-			System.out.println(word);
-		}
+		System.out.println("Matched path: " + matchedPath);
 	}
 
 
-	private static List<String> extractHashWords(String input) {
-		List<String> hashWords = new ArrayList<>();
-		Pattern pattern = Pattern.compile("#([\\p{L}\\p{N}_]+)"); // #으로 시작하고, 그 뒤에 단어 문자(알파벳, 숫자, 언더스코어)가 하나 이상인 패턴
+	private static String extractMatchedPath(String fullPath) {
+		// 정규식 패턴 설정
+		String pattern = "(/home.+?)/build";
+		Pattern regex = Pattern.compile(pattern);
 
-		Matcher matcher = pattern.matcher(input);
-
-		while (matcher.find()) {
-			String hashWord = matcher.group(1);
-			hashWords.add(hashWord);
+		// 매칭 수행
+		Matcher matcher = regex.matcher(fullPath);
+		if (matcher.find()) {
+			// 매칭된 부분 반환
+			return matcher.group(1);
+		} else {
+			// 매칭되지 않은 경우 예외처리 또는 기본값 반환 가능
+			return "";
 		}
-
-		return hashWords;
 	}
 
 }
