@@ -181,11 +181,13 @@ public class BoardController {
         commentService.join(newComment);
 
 
-        model.addAttribute("board", curBoard);
-        model.addAttribute("category", category);
-        model.addAttribute("tag", tag);
 
-        return "boardview";
+        String url = "/board/view?id=" + id + "&category=" + category;
+        if(tag != null) url = url + "&tag=" + tag;
+
+        model.addAttribute("searchUrl", url);
+
+        return "noMessage";
     }
 
 
