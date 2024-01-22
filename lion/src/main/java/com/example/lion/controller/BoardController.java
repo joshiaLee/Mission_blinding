@@ -179,7 +179,7 @@ public class BoardController {
         Comment newComment = new Comment();
         newComment.changeComment(curBoard, comment);
         commentService.join(newComment);
-
+        // test
 
 
         String url = "/board/view?id=" + id + "&category=" + category;
