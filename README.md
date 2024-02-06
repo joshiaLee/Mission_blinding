@@ -1,4 +1,5 @@
 ## Mission Blinding - 익명 게시판 기능 개발
+-ing
 
 ### 필수 기능 소개
 
